@@ -32,7 +32,7 @@ if PG_HOST in ['localhost', '127.0.0.1']:
     PG_DATABASE_URL = f"postgresql+asyncpg://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}"
 else:
     # RDS 등 프로덕션 환경에서는 SSL 사용
-    PG_DATABASE_URL = f"postgresql+asyncpg://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}?ssl=require"
+    PG_DATABASE_URL = f"postgresql+asyncpg://{PG_USER}:{PG_PASSWORD}@{PG_HOST}:{PG_PORT}/{PG_DATABASE}?ssl=prefer"
 
 # 비동기 엔진 생성
 # MySQL 엔진
