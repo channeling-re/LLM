@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
+
 from core.config.database_config import test_pg_connection, test_mysql_connection
 from domain.report.controller.report_controller import router as report_router
 from response.code.status.success_status import SuccessStatus
@@ -10,6 +12,7 @@ from core.kafka.kafka_broker import kafka_broker
 '''
 
 app = FastAPI(title="Channeling LLM API", version="1.0.0")
+Instrumentator().instrument(app).expose(app, endpoint="/metrics")  # /metrics 엔드포인트 오픈
 
 # 라우터 등록
 app.include_router(report_router)
@@ -33,6 +36,8 @@ async def on_startup():
     await kafka_broker.start()
     print("✅ Kafka 브로커 시작 완료")
 
+
+
 @app.on_event("shutdown")
 async def on_shutdown():
 
@@ -48,3 +53,6 @@ async def health_check():
     return ApiResponse.on_success(SuccessStatus._OK, {"status": "UP"})
 
 
+@app.get("/ping")
+async def ping():
+    return {"message": "pong"}
