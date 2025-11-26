@@ -43,3 +43,7 @@ serpapi
 
 # isodate
 isodate
+
+# 모니터링
+prometheus_client
+prometheus-fastapi-instrumentator
